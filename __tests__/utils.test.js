@@ -3,6 +3,8 @@ const {
   createRef,
   formatComments,
 } = require("../db/seeds/utils");
+const request = require("supertest");
+const app = require("../app.js");
 
 describe("convertTimestampToDate", () => {
   test("returns a new object", () => {
