@@ -12,7 +12,7 @@ afterAll(() => {
 });
 
 describe("Get api topics", () => {
-  test.only("GET - status: 200 -should respond with an array of topics object", () => {
+  test("GET - status: 200 -should respond with an array of topics object", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -22,7 +22,6 @@ describe("Get api topics", () => {
         expect(Array.isArray(topics)).toBe(true);
         expect(topics[0]).toHaveProperty("slug");
         expect(topics[1]).toHaveProperty("description");
-        console.log(topics);
       });
   });
 });
