@@ -1,4 +1,5 @@
-const { selectTopics, selectEndpoints } = require("../models/ncModel.js");
+const fs = require("fs");
+const { selectTopics } = require("../models/ncModel.js");
 
 exports.getTopics = (request, response, next) => {
   selectTopics()
@@ -9,12 +10,14 @@ exports.getTopics = (request, response, next) => {
       next(error);
     });
 };
+
 exports.fetchEndpoints = (request, response, next) => {
-  selectEndpoints()
-    .then((endpoints) => {
-      response.status(200).send({ endpoints: endpoints });
-    })
-    .catch((error) => {
-      next(error);
-    });
+  return fs.readFile("endpoints.json", "utf-8", (error, data) => {
+    if (error) {
+      console.log(error);
+      return response.status(500).json({ error: "SERVER ERROR" });
+    }
+    const endpoints = JSON.parse(data).endpoints;
+    response.json(endpoints);
+  });
 };

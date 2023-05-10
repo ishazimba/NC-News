@@ -3,6 +3,7 @@ const app = require("../app.js");
 const seed = require("../db/seeds/seed.js");
 const data = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
+const { endpoints } = require("../endpoints.json");
 
 beforeEach(() => {
   return seed(data);
@@ -39,38 +40,9 @@ describe("Get API", () => {
       .get("/api")
       .expect(200)
       .then((response) => {
-        const { endpoints } = response.body;
+        const { fetchedEndpoints } = response.body;
 
-        expect(endpoints).toEqual({
-          "GET /api": {
-            description:
-              "serves up a json representation of all the available endpoints of the api",
-          },
-          "GET /api/topics": {
-            description: "serves an array of all topics",
-            queries: [],
-            exampleResponse: {
-              topics: [{ slug: "football", description: "Footie!" }],
-            },
-          },
-          "GET /api/articles": {
-            description: "serves an array of all topics",
-            queries: ["author", "topic", "sort_by", "order"],
-            exampleResponse: {
-              articles: [
-                {
-                  title: "Seafood substitutions are increasing",
-                  topic: "cooking",
-                  author: "weegembump",
-                  body: "Text from the article..",
-                  created_at: "2018-05-30T15:59:13.341Z",
-                  votes: 0,
-                  comment_count: 6,
-                },
-              ],
-            },
-          },
-        });
+        expect(fetchedEndpoints).toEqual(endpoints);
       });
   });
 });
