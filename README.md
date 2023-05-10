@@ -1,7 +1,3 @@
-# Northcoders News API
-
-## Background
-
 This project is about building an API for the purpose of accessing application data programmatically. The purpose of the project is to building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
 The /api endpoint acts as documentation, providing information about the available endpoints and how they should be interacted with.
 
