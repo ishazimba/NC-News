@@ -1,11 +1,11 @@
 const express = require("express");
 const app = express();
 
-const { getTopics } = require("./controllers/topics.controller");
+const { getTopics, getEndpoints } = require("./controllers/ncControllers");
 
 app.get("/api/topics", getTopics);
+app.get("/api", getEndpoints);
 
-// Error handling middleware
 app.use((err, request, response, next) => {
   response.status(err.status).send({ message: err.message });
 });
