@@ -1,6 +1,4 @@
-# Northcoders News API
-
-## Background
+# NORTHCODERS NEWS
 
 This project is about building an API for the purpose of accessing application data programmatically. The purpose of the project is to building of a real world backend service (such as reddit) which should provide this information to the front end architecture.
 The /api endpoint acts as documentation, providing information about the available endpoints and how they should be interacted with.
@@ -22,8 +20,8 @@ In your .gitignore file add ".env.development" and ".env.test".
 
 ## Available Endpoints
 
-GET /api
+1. GET /api
 
-GET /api/topics
+2. GET /api/topics
 
-GET /api/articles
+3. GET /api/articles
