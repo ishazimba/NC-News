@@ -15,11 +15,8 @@ exports.getTopics = (request, response, next) => {
 exports.getEndpoints = (request, response, next) => {
   if (request.url === "/api" && request.method === "GET") {
     const endpoint = endpoints;
-    response.statusCode = 200;
-    response.end(JSON.stringify(endpoints));
+    response.status(200).send(JSON.stringify(endpoints));
   } else {
-    response.statusCode = 500;
-
-    response.end("500: SERVER ERROR");
+    response.status(500).send("500: SERVER ERROR");
   }
 };
