@@ -23,5 +23,7 @@ In your .gitignore file add ".env.development" and ".env.test".
 ## Available Endpoints
 
 GET /api
+
 GET /api/topics
+
 GET /api/articles

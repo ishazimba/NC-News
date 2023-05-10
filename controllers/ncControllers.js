@@ -20,6 +20,6 @@ exports.getEndpoints = (request, response, next) => {
   } else {
     response.statusCode = 500;
 
-    response.end("SERVER ERROR");
+    response.end("500: SERVER ERROR");
   }
 };
