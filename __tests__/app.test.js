@@ -102,6 +102,7 @@ describe("GET api/articles", () => {
           expect(typeof article.article_img_url).toBe("string");
           expect(typeof article.comment_count).toBe("string");
         });
+        expect(articles.length).toBeGreaterThan(0);
       });
   });
   test("the article should be sorted by date in descending order.", () => {
