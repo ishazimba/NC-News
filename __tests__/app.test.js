@@ -4,6 +4,7 @@ const seed = require("../db/seeds/seed.js");
 const data = require("../db/data/test-data/index.js");
 const db = require("../db/connection.js");
 const { endpoints } = require("../endpoints.json");
+require("jest-sorted");
 
 beforeEach(() => {
   return seed(data);
@@ -81,6 +82,36 @@ describe("GET article by its id", () => {
       .then((response) => {
         const { message } = response.body;
         expect(message).toBe("BAD REQUEST! INVALID ID");
+      });
+  });
+});
+describe("GET api/articles", () => {
+  test("GET status 200- should respond with the an articles array of objects", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+        articles.forEach((article) => {
+          expect(typeof article.author).toBe("string");
+          expect(typeof article.title).toBe("string");
+          expect(typeof article.article_id).toBe("number");
+          expect(typeof article.topic).toBe("string");
+          expect(typeof article.created_at).toBe("string");
+          expect(typeof article.votes).toBe("number");
+          expect(typeof article.article_img_url).toBe("string");
+          expect(typeof article.comment_count).toBe("string");
+        });
+      });
+  });
+  test("the article should be sorted by date in descending order.", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((response) => {
+        const { articles } = response.body;
+
+        expect(articles).toBeSortedBy("created_at", { descending: true });
       });
   });
 });

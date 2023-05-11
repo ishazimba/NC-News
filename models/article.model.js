@@ -1,12 +1,6 @@
 const db = require("../db/connection");
 const fs = require("fs/promises");
 
-exports.selectTopics = (topic) => {
-  let queryString = `SELECT slug, description FROM topics`;
-  return db.query(queryString).then((result) => {
-    return result.rows;
-  });
-};
 exports.articleById = (articleId) => {
   return db
     .query(`SELECT *FROM articles WHERE article_id =$1`, [articleId])
@@ -19,5 +13,14 @@ exports.articleById = (articleId) => {
       } else {
         return result.rows[0];
       }
+    });
+};
+exports.createArticles = (articles) => {
+  return db
+    .query(
+      `SELECT articles.article_id, articles.author, articles.title, articles.topic, articles.created_at, articles.votes,articles.article_img_url, COUNT(comment_id) AS comment_count FROM articles JOIN comments ON comments.article_id =articles.article_id GROUP BY articles.article_id ORDER BY created_at DESC;`
+    )
+    .then((result) => {
+      return result.rows;
     });
 };
