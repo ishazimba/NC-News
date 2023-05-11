@@ -14,7 +14,7 @@ afterAll(() => {
 });
 
 describe("Get api topics", () => {
-  test("GET - status: 200 -should respond with an array of topics object", () => {
+  test("GET - status: 200 -should respond with an array of topics object, should have property slug and description", () => {
     return request(app)
       .get("/api/topics")
       .expect(200)
@@ -41,7 +41,6 @@ describe("Get API", () => {
       .expect(200)
       .then((response) => {
         const { fetchedEndpoints } = response.body;
-
         expect(fetchedEndpoints).toEqual(endpoints);
       });
   });
