@@ -45,3 +45,42 @@ describe("Get API", () => {
       });
   });
 });
+describe("GET article by its id", () => {
+  test("GET -status 200 - should respond with the article of the given article id", () => {
+    return request(app)
+      .get("/api/article/1")
+      .expect(200)
+      .then((response) => {
+        const { article } = response.body;
+        expect(article).toEqual({
+          article_id: 1,
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at: "2020-07-09T20:11:00.000Z",
+          votes: 100,
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+        });
+      });
+  });
+  test("GET status: 404 - Responds with error if article id does not exist", () => {
+    return request(app)
+      .get("/api/article/5000")
+      .expect(404)
+      .then((response) => {
+        const { message } = response.body;
+        expect(message).toBe("ERROR: Article id does not exits");
+      });
+  });
+  test("GET status: 400 - Responds with error if invalid article id is provided", () => {
+    return request(app)
+      .get("/api/article/articleOne")
+      .expect(400)
+      .then((response) => {
+        const { message } = response.body;
+        expect(message).toBe("BAD REQUEST! INVALID ID");
+      });
+  });
+});
