@@ -179,3 +179,25 @@ describe("GET api/article/:article_id/comments", () => {
       });
   });
 });
+describe("post api/articles/article_id/comments", () => {
+  test("Status 201- should respond with the new comments", () => {
+    const comment = {
+      username: "isha-tamang",
+      body: "Here is my comment.",
+    };
+    return request(app)
+      .post("/api/articles/2/comments")
+      .send(comment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comment).toEqual({
+          article_id: 2,
+          author: "icellusedkars",
+          body: "Here is my comment.",
+          comment_id: 19,
+          created_at: expect.any(String),
+          votes: 0,
+        });
+      });
+  });
+});
