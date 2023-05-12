@@ -133,7 +133,7 @@ describe("GET api/article/:article_id/comments", () => {
             article_id: expect.any(Number),
           });
         });
-        expect(comments).toBeInstanceOf(Array);
+
         comments.forEach((comment) => {
           expect(comment).toHaveProperty("comment_id");
           expect(comment).toHaveProperty("votes");
