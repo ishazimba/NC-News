@@ -49,7 +49,7 @@ describe("Get API", () => {
 describe("GET article by its id", () => {
   test("GET -status 200 - should respond with the article of the given article id", () => {
     return request(app)
-      .get("/api/article/1")
+      .get("/api/articles/1")
       .expect(200)
       .then((response) => {
         const { article } = response.body;
@@ -68,7 +68,7 @@ describe("GET article by its id", () => {
   });
   test("GET status: 404 - Responds with error if article id does not exist", () => {
     return request(app)
-      .get("/api/article/5000")
+      .get("/api/articles/5000")
       .expect(404)
       .then((response) => {
         const { message } = response.body;
@@ -77,7 +77,7 @@ describe("GET article by its id", () => {
   });
   test("GET status: 400 - Responds with error if invalid article id is provided", () => {
     return request(app)
-      .get("/api/article/articleOne")
+      .get("/api/articles/articleOne")
       .expect(400)
       .then((response) => {
         const { message } = response.body;
@@ -113,6 +113,63 @@ describe("GET api/articles", () => {
         const { articles } = response.body;
 
         expect(articles).toBeSortedBy("created_at", { descending: true });
+      });
+  });
+});
+describe("GET api/article/:article_id/comments", () => {
+  test("GET status: 200 - should respond with an array of comments for the given article id", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((response) => {
+        const { comments } = response.body;
+        expect(comments).toBeSortedBy("created_at", { descending: true });
+        comments.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            body: expect.any(String),
+            article_id: expect.any(Number),
+          });
+        });
+        expect(comments).toBeInstanceOf(Array);
+        comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id");
+          expect(comment).toHaveProperty("votes");
+          expect(comment).toHaveProperty("created_at");
+          expect(comment).toHaveProperty("author");
+          expect(comment).toHaveProperty("body");
+          expect(comment).toHaveProperty("article_id");
+        });
+        expect(comments.length).toBeGreaterThan(0);
+      });
+  });
+  test("GET status: 400 - Responds with error if invalid article id is provided", () => {
+    return request(app)
+      .get("/api/articles/Invalidarticle/comments")
+      .expect(400)
+      .then((response) => {
+        const { message } = response.body;
+        expect(message).toBe("BAD REQUEST! INVALID ID");
+      });
+  });
+  test("GET status: 404 - Responds with error if article id does not exist", () => {
+    return request(app)
+      .get("/api/articles/5000/comments")
+      .expect(404)
+      .then((response) => {
+        const { message } = response.body;
+        expect(message).toBe("ERROR: Article id does not exits");
+      });
+  });
+  test("GET status: 200 -Responds with an emty array if there is no comments available for the article", () => {
+    return request(app)
+      .get("/api/articles/2/comments")
+      .expect(200)
+      .then((response) => {
+        const { comments } = response.body;
+        expect(comments).toEqual([]);
       });
   });
 });

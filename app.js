@@ -7,11 +7,13 @@ const {
   getArticleById,
   getArticles,
 } = require("./controllers/articleController");
+const { getComments } = require("./controllers/comments.controller");
 
 app.get("/api/topics", getTopics);
 app.get("/api", getEndpoints);
 app.get("/api/articles", getArticles);
-app.get("/api/article/:articleId", getArticleById);
+app.get("/api/articles/:articleId", getArticleById);
+app.get("/api/articles/:article_id/comments", getComments);
 
 app.use((err, request, response, next) => {
   if (err.code == "22P02") {
