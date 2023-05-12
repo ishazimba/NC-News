@@ -125,6 +125,12 @@ describe("GET api/article/:article_id/comments", () => {
         const { comments } = response.body;
         expect(comments).toBeSortedBy("created_at", { descending: true });
         comments.forEach((comment) => {
+          expect(comment).toHaveProperty("comment_id");
+          expect(comment).toHaveProperty("votes");
+          expect(comment).toHaveProperty("created_at");
+          expect(comment).toHaveProperty("author");
+          expect(comment).toHaveProperty("body");
+          expect(comment).toHaveProperty("article_id");
           expect(comment).toMatchObject({
             comment_id: expect.any(Number),
             votes: expect.any(Number),
@@ -134,14 +140,6 @@ describe("GET api/article/:article_id/comments", () => {
           });
         });
 
-        comments.forEach((comment) => {
-          expect(comment).toHaveProperty("comment_id");
-          expect(comment).toHaveProperty("votes");
-          expect(comment).toHaveProperty("created_at");
-          expect(comment).toHaveProperty("author");
-          expect(comment).toHaveProperty("body");
-          expect(comment).toHaveProperty("article_id");
-        });
         expect(comments.length).toBeGreaterThan(0);
       });
   });
