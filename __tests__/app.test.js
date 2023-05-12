@@ -123,7 +123,6 @@ describe("GET api/article/:article_id/comments", () => {
       .expect(200)
       .then((response) => {
         const { comments } = response.body;
-        expect(comments).toBeSortedBy("created_at", { descending: true });
         comments.forEach((comment) => {
           expect(comment).toHaveProperty("comment_id");
           expect(comment).toHaveProperty("votes");
@@ -141,6 +140,15 @@ describe("GET api/article/:article_id/comments", () => {
         });
 
         expect(comments.length).toBeGreaterThan(0);
+      });
+  });
+  test("comments should be sorted by date in descending order", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((response) => {
+        const { comments } = response.body;
+        expect(comments).toBeSortedBy("created_at", { descending: true });
       });
   });
   test("GET status: 400 - Responds with error if invalid article id is provided", () => {
