@@ -1,5 +1,5 @@
 const { articleById, createArticles } = require("../models/article.model");
-const endpoints = require("../endpoints.json");
+
 const http = require("http");
 
 exports.getArticleById = (request, response, next) => {
