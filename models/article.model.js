@@ -1,5 +1,6 @@
 const db = require("../db/connection");
 const fs = require("fs/promises");
+const { checkArticle } = require("../db/seeds/utils");
 
 exports.articleById = (articleId) => {
   return db
@@ -22,5 +23,26 @@ exports.createArticles = (articles) => {
     )
     .then((result) => {
       return result.rows;
+    });
+};
+exports.updateArticlesVotes = (article_id, votes_inc_by) => {
+  return checkArticle(article_id)
+    .then(() => {
+      return db.query(
+        `UPDATE articles 
+        SET votes = votes + $1 
+        WHERE article_id = $2 
+        RETURNING *;`,
+        [votes_inc_by, article_id]
+      );
+    })
+    .then((result) => {
+      if (result.rowCount === 0) {
+        return Promise.reject({ status: 404, message: "Article ID not found" });
+      } else {
+        return result.rows[0];
+        console.log(result.rows[0]);
+        return result.rows[0];
+      }
     });
 };

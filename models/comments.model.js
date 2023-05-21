@@ -15,10 +15,11 @@ exports.getCommentsByArticleId = (article_id) => {
     });
 };
 exports.addCommentById = (article_id, username, body) => {
-  const queryString = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *`;
-  const queryValue = [article_id, username, body];
+  const queryStr = `INSERT INTO comments (article_id, author, body) VALUES ($1, $2, $3) RETURNING *;`;
 
-  return db.query(queryString, queryValue).then((result) => {
-    return result.rows;
+  const queryValues = [article_id, username, body];
+
+  return db.query(queryStr, queryValues).then((result) => {
+    return result.rows[0];
   });
 };
