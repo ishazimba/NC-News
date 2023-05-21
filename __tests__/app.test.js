@@ -179,3 +179,48 @@ describe("GET api/article/:article_id/comments", () => {
       });
   });
 });
+describe("Post /api/articles/:article_id/comments", () => {
+  test("Status 201 - responds with the newly added comment", () => {
+    const newComment = {
+      username: "icellusedkars",
+      body: "Here is my comment",
+    };
+    return request(app)
+      .post("/api/articles/3/comments")
+      .send(newComment)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.comments).toEqual({
+          article_id: 3,
+          author: "icellusedkars",
+          body: "Here is my comment",
+          comment_id: 19,
+          created_at: expect.any(String),
+          votes: 0,
+        });
+      });
+  });
+});
+
+describe("Patch request: /api/articles/:article_id", () => {
+  test("PATCH - status: 200 - Responds with updated votes", () => {
+    const newVotes = { votes_inc_by: 50 };
+    return request(app)
+      .patch("/api/articles/1")
+      .send(newVotes)
+      .expect(200)
+      .then(({ body }) => {
+        expect(body.article).toEqual({
+          article_id: 1,
+          title: "Living in the shadow of a great man",
+          topic: "mitch",
+          author: "butter_bridge",
+          body: "I find this existence challenging",
+          created_at: expect.any(String),
+          votes: 150,
+          article_img_url:
+            "https://images.pexels.com/photos/158651/news-newsletter-newspaper-information-158651.jpeg?w=700&h=700",
+        });
+      });
+  });
+});

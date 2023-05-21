@@ -1,4 +1,8 @@
-const { articleById, createArticles } = require("../models/article.model");
+const {
+  articleById,
+  createArticles,
+  updateArticlesVotes,
+} = require("../models/article.model");
 
 const http = require("http");
 
@@ -19,5 +23,17 @@ exports.getArticles = (request, response, next) => {
     })
     .catch((error) => {
       next(error);
+    });
+};
+exports.patchArticlesVotes = (request, response, next) => {
+  const { article_id } = request.params;
+  const { votes_inc_by } = request.body;
+
+  updateArticlesVotes(article_id, votes_inc_by)
+    .then((updatedArticle) => {
+      response.status(200).send({ article: updatedArticle });
+    })
+    .catch((err) => {
+      next(err);
     });
 };
