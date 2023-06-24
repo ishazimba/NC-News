@@ -19,9 +19,9 @@ Make sure you have following installed:
     npm install
    
 3. Create the two .env files:
-   ** Create a .env.development file and add the following:
+   * Create a .env.development file and add the following:
    PGDATABASE=nc_news
-   ** Create a.env.development file and add the following:
+   * Create a.env.development file and add the following:
    PGDATABASE=nc_news_test
    
 4. Setup the local database:
