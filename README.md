@@ -13,7 +13,7 @@ Make sure you have following installed:
 * Node.js(v19 or hiugher)
 * PostgreSQL (v14 or higher)
 
-1. Cone the repository:
+1. Clone the repository:
     https://github.com/ishazimba/NC-News.git
 2. Install dependencies:
     npm install
